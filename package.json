@@ -7,9 +7,9 @@
     "start": "electron .",
     "dev": "electron .",
     "check": "node -e \"console.log('ok')\"",
-    "dist:win": "electron-builder --win nsis",
-    "dist:win-portable": "electron-builder --win portable",
-    "dist:dir": "electron-builder --dir"
+    "dist:win": "electron-builder --win nsis --publish never",
+    "dist:win-portable": "electron-builder --win portable --publish never",
+    "dist:dir": "electron-builder --dir --publish never"
   },
   "keywords": [
     "electron",
