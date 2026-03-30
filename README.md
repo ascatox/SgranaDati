@@ -58,6 +58,21 @@ Il repository include [build-windows.yml](/home/user/miscellanea/SgranaDati/.git
 - esegue `npm run dist:win`
 - carica l'installer come artifact
 
+Per avere file scaricabili direttamente dalla pagina GitHub `Releases`, il repository include anche [release-windows.yml](/home/user/miscellanea/SgranaDati/.github/workflows/release-windows.yml).
+
+Flusso consigliato:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Quel workflow:
+
+- si attiva sui tag `v*`
+- esegue `npm run dist:win:release`
+- pubblica automaticamente l'installer `.exe` nella Release GitHub del tag
+
 ## Note sul perimetro
 
 - l'app lavora tutta in locale

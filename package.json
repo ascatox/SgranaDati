@@ -8,6 +8,7 @@
     "dev": "electron .",
     "check": "node -e \"console.log('ok')\"",
     "dist:win": "electron-builder --win nsis --publish never",
+    "dist:win:release": "electron-builder --win nsis --publish always",
     "dist:win-portable": "electron-builder --win portable --publish never",
     "dist:dir": "electron-builder --dir --publish never"
   },
