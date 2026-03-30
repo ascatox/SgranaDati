@@ -50,6 +50,29 @@ npm run dist:win
 
 L'output finisce in `dist/` con installer NSIS.
 
+## Prova su macOS
+
+Da sorgente:
+
+```bash
+git clone https://github.com/ascatox/SgranaDati.git
+cd SgranaDati
+npm install
+npm start
+```
+
+Build pacchetto macOS:
+
+```bash
+npm install
+npm run dist:mac
+```
+
+L'output finisce in `dist/` con:
+
+- un file `.dmg`
+- un file `.zip`
+
 ## CI Windows
 
 Il repository include [build-windows.yml](/home/user/miscellanea/SgranaDati/.github/workflows/build-windows.yml), che su GitHub Actions:
@@ -59,6 +82,11 @@ Il repository include [build-windows.yml](/home/user/miscellanea/SgranaDati/.git
 - carica l'installer come artifact
 
 Per avere file scaricabili direttamente dalla pagina GitHub `Releases`, il repository include anche [release-windows.yml](/home/user/miscellanea/SgranaDati/.github/workflows/release-windows.yml).
+
+Per macOS, il repository include anche:
+
+- [build-macos.yml](/home/user/miscellanea/SgranaDati/.github/workflows/build-macos.yml)
+- [release-macos.yml](/home/user/miscellanea/SgranaDati/.github/workflows/release-macos.yml)
 
 Flusso consigliato:
 
@@ -73,8 +101,15 @@ Quel workflow:
 - esegue `npm run dist:win:release`
 - pubblica automaticamente l'installer `.exe` nella Release GitHub del tag
 
+Il workflow macOS:
+
+- si attiva sugli stessi tag `v*`
+- esegue `npm run dist:mac:release`
+- pubblica automaticamente gli asset `.dmg` e `.zip` nella stessa Release GitHub
+
 ## Note sul perimetro
 
 - l'app lavora tutta in locale
 - `pdf` e `docx` vengono convertiti in testo anonimizzato, non ricostruiti nel formato originale
 - i nomi di persona sono il caso più ambiguo: usa i termini custom quando vuoi più controllo
+- le build macOS generate in CI non sono notarizzate: Gatekeeper puo richiedere l'apertura manuale
