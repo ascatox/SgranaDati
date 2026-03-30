@@ -18,6 +18,7 @@ App desktop locale per anonimizzare documenti prima di inviarli a sistemi AI.
 - partite IVA
 - IBAN
 - carte
+- CAP / ZIP / postal code
 - date opzionali
 - indirizzi opzionali
 - euristica opzionale per nomi propri

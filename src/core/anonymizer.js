@@ -51,6 +51,11 @@ function buildRules() {
       regex: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi
     },
     {
+      key: "postalCodes",
+      label: "POSTAL_CODE",
+      regex: /\b(?:\d{5}(?:-\d{4})?|[A-Z]\d[A-Z][ -]?\d[A-Z]\d)\b/gi
+    },
+    {
       key: "phones",
       label: "PHONE",
       regex: /(?<!\w)(?:\+?\d{1,3}[\s.-]?)?(?:\(?\d{2,4}\)?[\s.-]?)?\d(?:[\s.-]?\d){6,12}(?!\w)/g
@@ -170,6 +175,7 @@ const defaultOptions = {
   vatNumbers: true,
   ibans: true,
   creditCards: true,
+  postalCodes: true,
   dates: false,
   addresses: false,
   personNamesHeuristic: false,
