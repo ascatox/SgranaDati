@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>SgranaDati</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar panel">
+        <div>
+          <p class="eyebrow">Desktop privacy layer</p>
+          <h1>SgranaDati</h1>
+          <p class="intro">
+            Anonimizza documenti localmente prima di passarli a sistemi AI.
+          </p>
+        </div>
+
+        <section class="control-group">
+          <h2>Import</h2>
+          <button id="pick-files" class="primary-button">Seleziona file</button>
+          <button id="pick-output" class="ghost-button">Scegli cartella export</button>
+          <div id="dropzone" class="dropzone">
+            Trascina qui i documenti
+            <span>Supportati: txt, md, csv, json, log, html, xml, docx, pdf</span>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <div class="section-header">
+            <h2>Regole PII</h2>
+            <span class="mini-tag">offline</span>
+          </div>
+          <label><input type="checkbox" data-option="emails" checked /> Email</label>
+          <label><input type="checkbox" data-option="phones" checked /> Telefoni</label>
+          <label><input type="checkbox" data-option="taxCodes" checked /> Codici fiscali</label>
+          <label><input type="checkbox" data-option="vatNumbers" checked /> Partite IVA</label>
+          <label><input type="checkbox" data-option="ibans" checked /> IBAN</label>
+          <label><input type="checkbox" data-option="creditCards" checked /> Carte</label>
+          <label><input type="checkbox" data-option="dates" /> Date</label>
+          <label><input type="checkbox" data-option="addresses" /> Indirizzi</label>
+          <label>
+            <input type="checkbox" data-option="personNamesHeuristic" />
+            Euristica nomi propri
+          </label>
+          <p class="hint">
+            L’euristica nomi può sovra-anonimizzare. Meglio usarla insieme ai termini custom.
+          </p>
+        </section>
+
+        <section class="control-group">
+          <div class="section-header">
+            <h2>Termini custom</h2>
+            <span class="mini-tag">consigliato</span>
+          </div>
+          <textarea
+            id="custom-terms"
+            placeholder="Una voce per riga: nomi, aziende, codici interni, clienti..."
+          ></textarea>
+        </section>
+
+        <section class="control-group">
+          <button id="run" class="primary-button large">Anonimizza batch</button>
+          <button id="open-output" class="ghost-button">Apri cartella output</button>
+          <p id="status-line" class="status-line">Pronto.</p>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="panel summary-panel">
+          <div>
+            <p class="eyebrow">Sessione</p>
+            <h2>Panoramica</h2>
+          </div>
+          <div id="summary-cards" class="summary-cards">
+            <article class="summary-card">
+              <span>File selezionati</span>
+              <strong id="files-count">0</strong>
+            </article>
+            <article class="summary-card">
+              <span>Cartella output</span>
+              <strong id="output-dir">Auto</strong>
+            </article>
+            <article class="summary-card accent">
+              <span>Risultato ultimo batch</span>
+              <strong id="last-run">Nessuno</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace-grid">
+          <section class="panel file-list-panel">
+            <div class="section-header">
+              <h2>Documenti</h2>
+              <span id="file-list-meta" class="mini-tag">0 file</span>
+            </div>
+            <ul id="file-list" class="file-list"></ul>
+          </section>
+
+          <section class="panel results-panel">
+            <div class="section-header">
+              <h2>Esito e preview</h2>
+              <span id="results-meta" class="mini-tag">nessun batch</span>
+            </div>
+            <div id="results-empty" class="empty-state">
+              Esegui un batch per vedere placeholder, output e report.
+            </div>
+            <div id="result-detail" class="result-detail hidden">
+              <div class="result-toolbar">
+                <div>
+                  <h3 id="detail-title">Nessun file</h3>
+                  <p id="detail-subtitle"></p>
+                </div>
+                <button id="open-detail-output" class="ghost-button">Apri output</button>
+              </div>
+              <div id="replacement-tags" class="replacement-tags"></div>
+              <div class="preview-grid">
+                <article>
+                  <h4>Originale</h4>
+                  <pre id="original-preview"></pre>
+                </article>
+                <article>
+                  <h4>Anonimizzato</h4>
+                  <pre id="anonymized-preview"></pre>
+                </article>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
