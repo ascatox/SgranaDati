@@ -6,7 +6,10 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron .",
-    "check": "node -e \"console.log('ok')\""
+    "check": "node -e \"console.log('ok')\"",
+    "dist:win": "electron-builder --win nsis",
+    "dist:win-portable": "electron-builder --win portable",
+    "dist:dir": "electron-builder --dir"
   },
   "keywords": [
     "electron",
@@ -17,11 +20,53 @@
   ],
   "author": "",
   "license": "MIT",
+  "productName": "SgranaDati",
   "devDependencies": {
-    "electron": "^41.1.0"
+    "electron": "^41.1.0",
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
     "mammoth": "^1.12.0",
     "pdf-parse": "^2.4.5"
+  },
+  "build": {
+    "appId": "it.ascatox.sgranadati",
+    "productName": "SgranaDati",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "package.json",
+      "package-lock.json",
+      "!node_modules/.cache/**/*"
+    ],
+    "extraMetadata": {
+      "main": "electron/main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "SgranaDati-${version}-setup-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "SgranaDati-${version}-setup-${arch}.${ext}",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SgranaDati"
+    },
+    "portable": {
+      "artifactName": "SgranaDati-${version}-portable-${arch}.${ext}"
+    }
   }
 }

@@ -29,6 +29,34 @@ npm install
 npm start
 ```
 
+## Prova su Windows
+
+Da sorgente:
+
+```powershell
+git clone https://github.com/ascatox/SgranaDati.git
+cd SgranaDati
+npm install
+npm start
+```
+
+Build installer `.exe` su Windows:
+
+```powershell
+npm install
+npm run dist:win
+```
+
+L'output finisce in `dist/` con installer NSIS.
+
+## CI Windows
+
+Il repository include [build-windows.yml](/home/user/miscellanea/SgranaDati/.github/workflows/build-windows.yml), che su GitHub Actions:
+
+- installa le dipendenze con `npm ci`
+- esegue `npm run dist:win`
+- carica l'installer come artifact
+
 ## Note sul perimetro
 
 - l'app lavora tutta in locale
