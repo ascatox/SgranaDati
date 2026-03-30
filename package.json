@@ -1,6 +1,6 @@
 {
   "name": "sgranadati",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Desktop app locale per anonimizzare documenti prima di inviarli a sistemi AI.",
   "main": "electron/main.js",
   "scripts": {
@@ -68,6 +68,10 @@
     },
     "portable": {
       "artifactName": "SgranaDati-${version}-portable-${arch}.${ext}"
+    },
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
     }
   }
 }
