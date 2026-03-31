@@ -73,6 +73,8 @@ L'output finisce in `dist/` con:
 - un file `.dmg`
 - un file `.zip`
 
+Questa build locale e gli artifact della workflow di build sono unsigned: utili per sviluppo e test, non per distribuzione a utenti finali con Gatekeeper attivo.
+
 ## CI Windows
 
 Il repository include [build-windows.yml](/home/user/miscellanea/SgranaDati/.github/workflows/build-windows.yml), che su GitHub Actions:
@@ -106,10 +108,34 @@ Il workflow macOS:
 - si attiva sugli stessi tag `v*`
 - esegue `npm run dist:mac:release`
 - pubblica automaticamente gli asset `.dmg` e `.zip` nella stessa Release GitHub
+- richiede firma `Developer ID Application` e notarizzazione Apple configurate via secret GitHub
+
+## Firma e notarizzazione macOS
+
+Per distribuire binari macOS che si aprano con Gatekeeper attivo, la release macOS deve essere firmata e notarizzata.
+
+Secret richiesti in GitHub Actions:
+
+- `CSC_LINK`
+- `CSC_KEY_PASSWORD`
+- `APPLE_API_KEY`
+- `APPLE_API_KEY_ID`
+- `APPLE_API_ISSUER`
+
+Formato atteso:
+
+- `CSC_LINK`: certificato `Developer ID Application` esportato in `.p12`, codificato nel formato supportato da `electron-builder`
+- `CSC_KEY_PASSWORD`: password del `.p12`
+- `APPLE_API_KEY`: contenuto del file `.p8` di App Store Connect API key
+- `APPLE_API_KEY_ID`: key id della API key
+- `APPLE_API_ISSUER`: issuer id della API key
+
+La workflow [release-macos.yml](/home/user/miscellanea/SgranaDati/.github/workflows/release-macos.yml) materializza la chiave `.p8` in un file temporaneo e passa a `electron-builder` le variabili necessarie per notarizzare in automatico.
 
 ## Note sul perimetro
 
 - l'app lavora tutta in locale
 - `pdf` e `docx` vengono convertiti in testo anonimizzato, non ricostruiti nel formato originale
 - i nomi di persona sono il caso più ambiguo: usa i termini custom quando vuoi più controllo
-- le build macOS generate in CI non sono notarizzate: Gatekeeper puo richiedere l'apertura manuale
+- gli artifact di `build-macos.yml` restano unsigned e possono essere bloccati da Gatekeeper
+- gli asset pubblicati da `release-macos.yml` sono pensati per la distribuzione solo dopo configurazione di firma e notarizzazione

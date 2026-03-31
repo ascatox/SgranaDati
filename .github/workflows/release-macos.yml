@@ -16,6 +16,10 @@ jobs:
     runs-on: macos-15-intel
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CSC_LINK: ${{ secrets.CSC_LINK }}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+      APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+      APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
 
     steps:
       - name: Checkout
@@ -29,6 +33,41 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Validate macOS signing secrets
+        env:
+          APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY }}
+        run: |
+          missing=0
+
+          for name in CSC_LINK CSC_KEY_PASSWORD APPLE_API_KEY_ID APPLE_API_ISSUER; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing required secret: $name"
+              missing=1
+            fi
+          done
+
+          if [ -z "$APPLE_API_KEY_CONTENT" ]; then
+            echo "::error::Missing required secret: APPLE_API_KEY"
+            missing=1
+          fi
+
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Prepare App Store Connect API key
+        env:
+          APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY }}
+        run: |
+          key_dir="$RUNNER_TEMP/private_keys"
+          key_path="$key_dir/AuthKey_${APPLE_API_KEY_ID}.p8"
+
+          mkdir -p "$key_dir"
+          printf '%s' "$APPLE_API_KEY_CONTENT" > "$key_path"
+          chmod 600 "$key_path"
+
+          echo "APPLE_API_KEY=$key_path" >> "$GITHUB_ENV"
 
       - name: Build and publish macOS release assets
         run: npm run dist:mac:release
